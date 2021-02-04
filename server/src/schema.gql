@@ -1,0 +1,11 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Donation {
+  id: Int!
+}
+
+type Query {
+  donation(id: Int!): Donation!
+}
