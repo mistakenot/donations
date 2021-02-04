@@ -9,4 +9,4 @@ rm -f database.sqlite
 
 cat ./schema.sql | sqlite3 -bail ./database.sqlite
 
-cp ./database.sqlite ../server/db/
+cp ./database.sqlite ../data

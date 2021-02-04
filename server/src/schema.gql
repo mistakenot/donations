@@ -3,9 +3,30 @@
 # ------------------------------------------------------
 
 type Donation {
-  id: Int!
+  ecRef: String!
+  value: String!
+  acceptedDate: String!
+  accountingUnitName: String!
+  accountingUnitAsCentralParty: String!
+  isSponsorship: Boolean!
+  donationType: String!
+  natureOfDonation: String!
+  purposeOfVisit: String!
+  donationAction: String!
+  receivedDate: String!
+  reportedDate: String!
+  isReportedPrePoll: String!
+  reportingPeriodName: String!
+  isBequest: String!
+  isAggregation: String!
+  regulatedEntityId: String!
+  accountingUnitId: String!
+  donorId: String!
+  campaignName: String!
+  registerName: String!
+  isIrishSource: String!
 }
 
 type Query {
-  donation(id: Int!): Donation!
+  donation(id: String!): Donation!
 }
