@@ -1,13 +1,13 @@
-import {Field, ObjectType} from "@nestjs/graphql";
-import {IsString} from "class-validator";
+import {Field, ObjectType, Int} from "@nestjs/graphql";
+import {IsInt, IsString} from "class-validator";
 import {Donation} from "./donation";
 
 @ObjectType()
 export class Donatee {
 
-  @IsString()
-  @Field(type => String)
-  readonly regulatedEntityId: string;
+  @IsInt()
+  @Field(type => Int)
+  readonly regulatedEntityId: number;
 
   @IsString()
   @Field(type => String)

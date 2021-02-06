@@ -7,9 +7,9 @@ create table donor (
 );
 
 create table donatee (
+    regulatedEntityType text not null default '',
     regulatedEntityId integer not null primary key,
     regulatedEntityName text not null default '',
-    regulatedEntityType text not null default '',
     regulatedDoneeType text not null default ''
 );
 

@@ -1,4 +1,4 @@
-import {Args, Parent, Query, ResolveField, Resolver} from "@nestjs/graphql";
+import {Args, Int, Parent, Query, registerEnumType, ResolveField, Resolver} from "@nestjs/graphql";
 import {Donatee, Donation, Donor, Repository} from "@shared";
 
 @Resolver(of => Donation)
@@ -8,6 +8,14 @@ export class DonationsResolver {
   @Query(returns => Donation)
   async donation(@Args('ecRef', { type: () => String }) ecRef: string): Promise<Donation> {
     return await this.repository.getDonation(ecRef);
+  }
+
+  @Query(returns => [Donation])
+  async donations(
+    @Args('page', { type: () => Int, defaultValue: 0 }) page: number,
+    @Args('orderBy', { type: () => DonationOrderBy, defaultValue: "ecRef" }) orderBy: string,
+    ): Promise<Donation[]> {
+    return await this.repository.listDonations(page, orderBy);
   }
 
   @ResolveField()
@@ -22,3 +30,12 @@ export class DonationsResolver {
     return await this.repository.getDonatee(id);
   }
 }
+
+enum DonationOrderBy {
+  ecRef = "ecRef",
+  value = "value"
+}
+
+registerEnumType(DonationOrderBy, {
+  name: 'DonationOrderBy'
+})

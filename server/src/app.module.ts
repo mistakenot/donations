@@ -7,9 +7,13 @@ import { DonationsModule } from './donations/donations.module';
 import { SqliteModule } from './sqlite/sqlite.module';
 import { DonateeModule } from './donatee/donatee.module';
 import { DonorModule } from './donor/donor.module';
+import {ServeStaticModule} from "@nestjs/serve-static";
 
 @Module({
   imports: [
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'views')
+    }),
     GraphQLModule.forRoot({
       autoSchemaFile: join(process.cwd(), 'src/schema.gql')
     }),

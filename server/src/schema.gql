@@ -12,7 +12,7 @@ type Donor {
 }
 
 type Donatee {
-  regulatedEntityId: String!
+  regulatedEntityId: Int!
   regulatedEntityName: String!
   regulatedEntityType: String!
   regulatedDoneeType: String!
@@ -48,6 +48,18 @@ type Donation {
 
 type Query {
   donation(ecRef: String!): Donation!
+  donations(orderBy: DonationOrderBy = ecRef, page: Int = 0): [Donation!]!
   donatee(regulatedEntityId: Int!): Donatee!
+  donatees(regulatedDonateeType: RegulatedDonateeType = ecRef, page: Int = 0): [Donatee!]!
   donor(donorId: Int!): Donor!
+  donors(isCompany: Boolean = false, page: Int = 0): [Donor!]!
+}
+
+enum DonationOrderBy {
+  ecRef
+  value
+}
+
+enum RegulatedDonateeType {
+  ecRef
 }

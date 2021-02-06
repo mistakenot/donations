@@ -11,7 +11,7 @@ interface Donor {
 interface Donatee {
   regulatedEntityId: number;
   regulatedEntityName: string;
-  regulatedtityType: string;
+  regulatedEntityType: string;
   regulatedDoneeType: string;
 }
 
@@ -43,8 +43,8 @@ interface Donation {
 export async function loadModelFromJson() {
 
   const donors = new Map<number, Donor>();
-  const donatee = new Map<number, Donatee>();
-  const donation = new Map<string, Donation>();
+  const donatees = new Map<number, Donatee>();
+  const donations = new Map<string, Donation>();
   const rows = readProcessedElectoralComissionDonations();
 
   for (const row of rows) {
@@ -68,17 +68,17 @@ export async function loadModelFromJson() {
       })
     }
 
-    if (!donatee.has(regulatedEntityId)) {
-      donatee.set(regulatedEntityId, {
-        regulatedDoneeType: formatString(row.RegulatedEntityId),
+    if (!donatees.has(regulatedEntityId)) {
+      donatees.set(regulatedEntityId, {
+        regulatedDoneeType: formatString(row.RegulatedDoneeType),
         regulatedEntityId: regulatedEntityId,
         regulatedEntityName: formatString(row.RegulatedEntityName),
-        regulatedtityType: formatString(row.RegulatedEntityType)
+        regulatedEntityType: formatString(row.RegulatedEntityType)
       })
     }
 
-    if (!donation.has(ECRef)) {
-      donation.set(ECRef, {
+    if (!donations.has(ECRef)) {
+      donations.set(ECRef, {
         ecRef: ECRef,
         value: parseCurrency(row.Value),
         acceptedDate: parseUnixTime(row.AcceptedDate),
@@ -105,7 +105,7 @@ export async function loadModelFromJson() {
     }
   }
 
-  console.log(donors.size, donatee.size, donation.size);
+  console.log(donors.size, donatees.size, donations.size);
   const db = new Database('./database.sqlite');
 
   async function run(sql: string, args: any) {
@@ -130,17 +130,17 @@ export async function loadModelFromJson() {
       console.log('Imported donor ' + donor.donorId);
     }
 
-    for (const donor of donatee.values()) {
-      const values = Object.keys(donor).map(k => "$" + k);
+    for (const donatee of donatees.values()) {
+      const values = Object.keys(donatee).map(k => "$" + k);
       const joined = values.join(", ");
-      const mapped = Object.keys(donor)
-        .reduce((s, k) => ({...s, ...{["$" + k]: donor[k]}}), {});
+      const mapped = Object.keys(donatee)
+        .reduce((s, k) => ({...s, ...{["$" + k]: donatee[k]}}), {});
 
       await run(`insert into donatee values (${joined})`, mapped);
-      console.log('Imported donatee ' + donor.regulatedEntityId);
+      console.log('Imported donatee ' + donatee.regulatedEntityId);
     }
 
-    for (const donor of donation.values()) {
+    for (const donor of donations.values()) {
       const values = Object.keys(donor).map(k => "$" + k);
       const joined = values.join(", ");
       const mapped = Object.keys(donor)
