@@ -29,4 +29,18 @@ export class SqliteService implements SqlClient {
       })
     })
   }
+
+  getAllRows<T>(sql: string, resultType: Type<T>, parameters: Object): Promise<T[]> {
+    return new Promise((resolve, reject) => {
+      this.db.all(sql, parameters, (error, rows: unknown[]) => {
+        if (error) {
+          return reject(error);
+        }
+
+        const results: T[] = rows.map(row => plainToClass(resultType, row));
+        results.forEach(t => validateSync(t as Object));
+        resolve(results);
+      });
+    });
+  }
 }

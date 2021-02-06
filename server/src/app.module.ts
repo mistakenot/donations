@@ -5,6 +5,8 @@ import {GraphQLModule} from "@nestjs/graphql";
 import {join} from 'path';
 import { DonationsModule } from './donations/donations.module';
 import { SqliteModule } from './sqlite/sqlite.module';
+import { DonateeModule } from './donatee/donatee.module';
+import { DonorModule } from './donor/donor.module';
 
 @Module({
   imports: [
@@ -12,7 +14,9 @@ import { SqliteModule } from './sqlite/sqlite.module';
       autoSchemaFile: join(process.cwd(), 'src/schema.gql')
     }),
     DonationsModule,
-    SqliteModule
+    SqliteModule,
+    DonateeModule,
+    DonorModule
   ],
   controllers: [AppController],
   providers: [AppService],

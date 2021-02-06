@@ -5,10 +5,9 @@ WORKDIR /build
 RUN apt-get update && apt-get install -y sqlite3 make
 RUN npm install -g nest-cli
 
-COPY sqlite ./sqlite
 COPY server ./server
 COPY makefile .
-RUN make build
+RUN make build-server
 
 FROM node:12
 

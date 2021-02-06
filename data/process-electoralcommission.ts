@@ -105,35 +105,40 @@ export type Donation = {
 
 const rows: Donation[] = [];
 
-createReadStream(filename)
-  .pipe(csv({
-    headers: Object.keys(schema.properties),
-    skipLines: 1,
-    separator: ','
-  }))
-  .on('data', (row: Donation) => {
-    try {
-      validate(row, schema, {throwError: true, allowUnknownAttributes: false});
-      rows.push(row);
-    }
-    catch(error) {
-      console.error('Row failed', {row, error});
-      throw error;
-    }
-  })
-  .on('end', () => {
-    onComplete()
-  })
+export async function processCsvFile() {
+  return new Promise((resolve, reject) => {
+    createReadStream(filename)
+      .pipe(csv({
+        headers: Object.keys(schema.properties),
+        skipLines: 1,
+        separator: ','
+      }))
+      .on('data', (row: Donation) => {
+        try {
+          validate(row, schema, {throwError: true, allowUnknownAttributes: false});
+          rows.push(row);
+        } catch (error) {
+          console.error('Row failed', {row, error});
+          return reject(error);
+          throw error;
+        }
+      })
+      .on('end', () => {
+        onComplete()
+      })
 
-function onComplete() {
-  const json = JSON.stringify(rows);
-  const schemaJson = JSON.stringify({
-    type: 'array',
-    items: schema
-  })
+    function onComplete() {
+      const json = JSON.stringify(rows);
+      const schemaJson = JSON.stringify({
+        type: 'array',
+        items: schema
+      })
 
-  writeFileSync(__dirname + '/processed/search.electoralcommission.org.uk.json', json)
-  writeFileSync(__dirname + '/processed/search.electoralcommission.org.uk.schema.json', schemaJson)
+      writeFileSync(__dirname + '/processed/search.electoralcommission.org.uk.json', json)
+      writeFileSync(__dirname + '/processed/search.electoralcommission.org.uk.schema.json', schemaJson)
+      resolve(undefined);
+    }
+  })
 }
 
 export function readProcessedElectoralComissionDonations(): Donation[] {

@@ -2,9 +2,26 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Donor {
+  donorId: Int!
+  donorName: String!
+  donorStatus: String!
+  companyRegistrationNumber: String!
+  postcode: String!
+  donations: [Donation!]!
+}
+
+type Donatee {
+  regulatedEntityId: String!
+  regulatedEntityName: String!
+  regulatedEntityType: String!
+  regulatedDoneeType: String!
+  donations: [Donation!]!
+}
+
 type Donation {
   ecRef: String!
-  value: String!
+  value: Float!
   acceptedDate: String!
   accountingUnitName: String!
   accountingUnitAsCentralParty: String!
@@ -13,20 +30,24 @@ type Donation {
   natureOfDonation: String!
   purposeOfVisit: String!
   donationAction: String!
-  receivedDate: String!
-  reportedDate: String!
-  isReportedPrePoll: String!
+  receivedDate: String
+  reportedDate: String
+  isReportedPrePoll: Boolean!
   reportingPeriodName: String!
-  isBequest: String!
-  isAggregation: String!
-  regulatedEntityId: String!
+  isBequest: Boolean!
+  isAggregation: Boolean!
+  regulatedEntityId: Int!
   accountingUnitId: String!
-  donorId: String!
+  donorId: Int!
   campaignName: String!
   registerName: String!
-  isIrishSource: String!
+  isIrishSource: Boolean!
+  donor: Donor!
+  donatee: Donatee!
 }
 
 type Query {
-  donation(id: String!): Donation!
+  donation(ecRef: String!): Donation!
+  donatee(regulatedEntityId: Int!): Donatee!
+  donor(donorId: Int!): Donor!
 }
