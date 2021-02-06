@@ -26,9 +26,10 @@ rebuild-data: build-sql build-data
 
 deploy:
 	docker push $(IMAGE_NAME) && \
-	gcloud run deploy --image $(IMAGE_NAME) \
+	gcloud run deploy donations \
+	  --image $(IMAGE_NAME) \
 		--allow-unauthenticated \
-		--region europe-west-2 \
+		--region europe-west2 \
 		--platform managed \
 		--project $(GCLOUD_PROJECT)
 
