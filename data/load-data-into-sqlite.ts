@@ -1,4 +1,4 @@
-import {readProcessedElectoralComissionDonations} from "./process-electoralcommission";
+import {readProcessedElectoralComissionDonations} from "./validate-csv-data";
 import {Database} from 'sqlite3';
 interface Donor {
   donorId: number;
@@ -40,7 +40,7 @@ interface Donation {
   isIrishSource: boolean;
 }
 
-export async function loadModelFromJson() {
+export async function loadModelFromJsonIntoSqlite() {
 
   const donors = new Map<number, Donor>();
   const donatees = new Map<number, Donatee>();

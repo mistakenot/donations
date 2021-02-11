@@ -1,6 +1,9 @@
 export DATA_DOWNLOAD_URL := "http://search.electoralcommission.org.uk/api/csv/Donations?start={start}&rows={pageSize}&query=&sort=AcceptedDate&order=desc&et=rd&et=pp&et=tp&et=perpar&et=ppm&date=&from=&to=&rptPd=&prePoll=false&postPoll=true&register=gb&register=ni&register=none&isIrishSourceYes=true&isIrishSourceNo=true&includeOutsideSection75=true"
 export IMAGE_NAME := eu.gcr.io/$(GCLOUD_PROJECT)/donations:latest
 
+init:
+	cd server; npm i; cd ..;
+
 build: build-sql rebuild-data build-server
 
 build-docker:

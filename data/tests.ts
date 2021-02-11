@@ -1,4 +1,4 @@
-import {formatString, parseBool, parseCurrency, parseUnixTime} from "./process-json";
+import {formatString, parseBool, parseCurrency, parseUnixTime} from "./load-data-into-sqlite";
 
 let passed = true;
 
