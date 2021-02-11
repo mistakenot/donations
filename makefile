@@ -24,6 +24,9 @@ start:
 test-data:
 	cd data; npm t;
 
+test-server:
+	cd server; npm run test:e2e;
+
 rebuild-data: build-sql build-data
 	cp ./data/database.sqlite ./server/db/database.sqlite
 

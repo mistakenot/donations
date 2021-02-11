@@ -15,10 +15,12 @@ describe('AppController (e2e)', () => {
     await app.init();
   });
 
-  it('/ (GET)', () => {
+  it('/graphql (POST) can execute a simple query', () => {
     return request(app.getHttpServer())
-      .get('/')
+      .post('/graphql')
+      .set("Content-Type", "application/json")
+      .send({"operationName":null,"variables":{},"query":"{\n  donor(donorId: 1) {\n    donorName\n  }\n}\n"})
       .expect(200)
-      .expect('Hello World!');
+      .expect('{"data":{"donor":{"donorName":"Agents Training Trust"}}}\n');
   });
 });

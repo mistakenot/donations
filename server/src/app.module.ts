@@ -15,7 +15,7 @@ import {ServeStaticModule} from "@nestjs/serve-static";
       rootPath: join(__dirname, '..', 'views')
     }),
     GraphQLModule.forRoot({
-      autoSchemaFile: join(process.cwd(), 'src/schema.gql')
+      autoSchemaFile: join(__dirname, 'schema.gql')
     }),
     DonationsModule,
     SqliteModule,

@@ -30,3 +30,9 @@ Ensure that you have `make` installed. Then you can run:
 
 The [./data](./data) directory contains code for downloading, cleansing and loading the data into a running Sqlite instance. The [./sqlite](./sqlite) directory contains everything needed to build the database schema. FInally, the [./server](./server) directory contains the [Nest.JS](https://docs.nestjs.com/) service for hosting the GraphQl endpoint.
 
+## Tests
+
+There are a few tests implemented:
+
+- In the [./data](./data) directory. Run `make test-data` from the root directory to run them.
+- In the [./server](./server) directory. Run `make test-server` from the root directory to run them.
